@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hibernate.training.HelloWorld.App;
+import com.hibernate.training.HelloWorld.model.Author;
 import com.hibernate.training.HelloWorld.model.Book;
 import com.hibernate.training.HelloWorld.util.HibernateUtil;
 
@@ -30,6 +31,29 @@ public class CRUDService {
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
 			bookId = (Long) session.save(book);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			logger.error(e.getLocalizedMessage());
+
+		} finally {
+			session.close();
+		}
+
+		return bookId;
+
+	}
+
+	public static Long createAuthor(Author author) {
+
+		Session session = null;
+		Transaction transaction = null;
+		Long bookId = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			bookId = (Long) session.save(author);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null)
@@ -67,16 +91,15 @@ public class CRUDService {
 
 	}
 
-	
 	public static Book getBookByID(Long id) {
 
 		Session session = null;
 		Transaction transaction = null;
-		Book book= null;
+		Book book = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
-			book = (Book) session.get(Book.class, id);			
+			book = (Book) session.get(Book.class, id);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null)
@@ -86,14 +109,11 @@ public class CRUDService {
 		} finally {
 			session.close();
 		}
-		
+
 		return book;
 
 	}
 
-	
-	
-	
 	public static void removeBook(Long id) {
 
 		Session session = null;
@@ -132,8 +152,7 @@ public class CRUDService {
 			criteriaQuery.select(root);
 			TypedQuery<Book> typedQuery = session.createQuery(criteriaQuery);
 			bookList = typedQuery.getResultList();
-			
-			
+
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null)

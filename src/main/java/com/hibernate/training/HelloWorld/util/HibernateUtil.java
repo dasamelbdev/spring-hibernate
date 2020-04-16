@@ -10,6 +10,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 
+import com.hibernate.training.HelloWorld.model.Author;
+import com.hibernate.training.HelloWorld.model.AuthorProfile;
 import com.hibernate.training.HelloWorld.model.Book;
 
 public class HibernateUtil {
@@ -42,7 +44,8 @@ public class HibernateUtil {
 	            registry = registryBuilder.build();
 
 	            // Create MetadataSources
-	            MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(Book.class);
+	            MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(Book.class).
+	            		addAnnotatedClass(Author.class).addAnnotatedClass(AuthorProfile.class);
 
 	            // Create Metadata
 	            Metadata metadata = sources.getMetadataBuilder().build();

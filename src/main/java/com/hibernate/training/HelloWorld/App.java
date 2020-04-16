@@ -1,6 +1,8 @@
 package com.hibernate.training.HelloWorld;
 
 import com.hibernate.training.HelloWorld.crudservice.CRUDService;
+import com.hibernate.training.HelloWorld.model.Author;
+import com.hibernate.training.HelloWorld.model.AuthorProfile;
 import com.hibernate.training.HelloWorld.model.Book;
 import com.hibernate.training.HelloWorld.util.HibernateUtil;
 
@@ -42,15 +44,32 @@ public class App {
 
 		// List
 
-		List<Book> bookList = CRUDService.ListBooks();
-		logger.info("====Listing the books=======");
-		for (Book book : bookList) {
-			logger.info("book id :" + book.getBookId());
-			logger.info("book name :" + book.getBookName());
-			logger.info("book ISBN	 :" + book.getISBN());
-		}
-		logger.info("===========");
+//		List<Book> bookList = CRUDService.ListBooks();
+//		logger.info("====Listing the books=======");
+//		for (Book book : bookList) {
+//			logger.info("book id :" + book.getBookId());
+//			logger.info("book name :" + book.getBookName());
+//			logger.info("book ISBN	 :" + book.getISBN());
+//		}
+//		logger.info("===========");
 
+		
+		//one to one uni-directional association 
+	
+		Author author = new Author();
+		author.setFirstName("Salman");
+		author.setLastName("Rushdi");
+		AuthorProfile authorProfile = new AuthorProfile();
+		authorProfile.setHomeAddress("rushdy-home-addr-india");
+		authorProfile.setOfficeAddress("rushdy-office-addr-india");
+		authorProfile.setPhoneNumber("+91234569891");
+		authorProfile.setUniversity("rushdi-uni");
+		author.setAuthorProfile(authorProfile);
+		
+		logger.info(" author id :"+CRUDService.createAuthor(author));
+		
+		
+		
 		HibernateUtil.shutdown();
 
 	}
