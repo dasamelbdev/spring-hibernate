@@ -88,13 +88,7 @@ public class App {
 		//logger.info(" book  id  :"+CRUDService.createBook(book));
 		//logger.info(" book covr id  :"+CRUDService.createBookCover(bookCover));
 		
-		logger.info("Book name =====>"+CRUDService.getBookByBookCover(4L).getBookName());
-		
-
-		
-		
-		
-		
+		logger.info("Book name =====>"+CRUDService.getBookByBookCover(4L).getBookName());		
 		HibernateUtil.shutdown();
 
 	}
