@@ -13,6 +13,7 @@ import org.hibernate.cfg.Environment;
 import com.hibernate.training.HelloWorld.model.Author;
 import com.hibernate.training.HelloWorld.model.AuthorProfile;
 import com.hibernate.training.HelloWorld.model.Book;
+import com.hibernate.training.HelloWorld.model.BookCover;
 
 public class HibernateUtil {
 	
@@ -45,7 +46,7 @@ public class HibernateUtil {
 
 	            // Create MetadataSources
 	            MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(Book.class).
-	            		addAnnotatedClass(Author.class).addAnnotatedClass(AuthorProfile.class);
+	            		addAnnotatedClass(Author.class).addAnnotatedClass(AuthorProfile.class).addAnnotatedClass(BookCover.class);
 
 	            // Create Metadata
 	            Metadata metadata = sources.getMetadataBuilder().build();

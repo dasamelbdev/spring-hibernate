@@ -1,15 +1,14 @@
 package com.hibernate.training.HelloWorld;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hibernate.training.HelloWorld.crudservice.CRUDService;
 import com.hibernate.training.HelloWorld.model.Author;
 import com.hibernate.training.HelloWorld.model.AuthorProfile;
 import com.hibernate.training.HelloWorld.model.Book;
+import com.hibernate.training.HelloWorld.model.BookCover;
 import com.hibernate.training.HelloWorld.util.HibernateUtil;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Hello world!
@@ -56,17 +55,43 @@ public class App {
 		
 		//one to one uni-directional association 
 	
-		Author author = new Author();
-		author.setFirstName("Salman");
-		author.setLastName("Rushdi");
-		AuthorProfile authorProfile = new AuthorProfile();
-		authorProfile.setHomeAddress("rushdy-home-addr-india");
-		authorProfile.setOfficeAddress("rushdy-office-addr-india");
-		authorProfile.setPhoneNumber("+91234569891");
-		authorProfile.setUniversity("rushdi-uni");
-		author.setAuthorProfile(authorProfile);
+//		Author author = new Author();
+//		author.setFirstName("Salman");
+//		author.setLastName("Rushdi");
+//		AuthorProfile authorProfile = new AuthorProfile();
+//		authorProfile.setHomeAddress("rushdy-home-addr-india");
+//		authorProfile.setOfficeAddress("rushdy-office-addr-india");
+//		authorProfile.setPhoneNumber("+91234569891");
+//		authorProfile.setUniversity("rushdi-uni");
+//		author.setAuthorProfile(authorProfile);
+//		
+//		logger.info(" author id :"+CRUDService.createAuthor(author));
+//		
+//		
 		
-		logger.info(" author id :"+CRUDService.createAuthor(author));
+		//one to one bidirectional association
+		
+		//getting book by book cover
+		
+		Book book = new Book();
+		book.setBookName("book-3");
+		book.setISBN("666");
+		
+		BookCover bookCover= new BookCover();
+		bookCover.setCoverimage("book-3-c3");
+		bookCover.setDesignerName("book-3-d3");
+		bookCover.setBook(book);
+		
+		book.setBookCover(bookCover);
+		
+		//we can start saving from either one of two ends.
+		//logger.info(" book  id  :"+CRUDService.createBook(book));
+		//logger.info(" book covr id  :"+CRUDService.createBookCover(bookCover));
+		
+		logger.info("Book name =====>"+CRUDService.getBookByBookCover(4L).getBookName());
+		
+
+		
 		
 		
 		

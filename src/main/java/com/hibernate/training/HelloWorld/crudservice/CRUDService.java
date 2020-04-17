@@ -2,20 +2,20 @@ package com.hibernate.training.HelloWorld.crudservice;
 
 import java.util.List;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hibernate.training.HelloWorld.App;
 import com.hibernate.training.HelloWorld.model.Author;
 import com.hibernate.training.HelloWorld.model.Book;
+import com.hibernate.training.HelloWorld.model.BookCover;
 import com.hibernate.training.HelloWorld.util.HibernateUtil;
 
 public class CRUDService {
@@ -45,6 +45,32 @@ public class CRUDService {
 
 	}
 
+	public static Long createBookCover(BookCover bookCover) {
+
+		Session session = null;
+		Transaction transaction = null;
+		Long bookId = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			bookId = (Long) session.save(bookCover);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			logger.error(e.getLocalizedMessage());
+
+		} finally {
+			session.close();
+		}
+
+		return bookId;
+
+	}
+
+	
+	
+	
 	public static Long createAuthor(Author author) {
 
 		Session session = null;
@@ -111,6 +137,58 @@ public class CRUDService {
 		}
 
 		return book;
+
+	}
+
+	
+	public static Book getBookByBookCover(Long bookCoverId) {
+
+		Session session = null;
+		Transaction transaction = null;
+		Book book = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			BookCover bookCover = (BookCover)session.get(BookCover.class,bookCoverId);
+			book=bookCover.getBook();
+			Hibernate.initialize(book);
+			//logger.info("Book name ::::::"+ book.getBookName());
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			logger.error(e.getLocalizedMessage());
+
+		} finally {
+			session.close();
+		}
+
+		return book;
+
+	}
+
+	
+	
+	public static BookCover getBookCoverByID(Long id) {
+
+		Session session = null;
+		Transaction transaction = null;
+		BookCover bookCover = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			bookCover = (BookCover) session.get(BookCover.class, id);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			logger.error(e.getLocalizedMessage());
+
+		} finally {
+			session.close();
+		}
+
+		return bookCover;
 
 	}
 

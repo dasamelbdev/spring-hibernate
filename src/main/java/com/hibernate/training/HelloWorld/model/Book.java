@@ -1,10 +1,13 @@
 package com.hibernate.training.HelloWorld.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +25,18 @@ public class Book {
 
 	@Column(name="book_isbn" , nullable = false, unique = true, length = 50)
 	private String ISBN;
+
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "book")
+	private BookCover bookCover;
+	
+	
+	public BookCover getBookCover() {
+		return bookCover;
+	}
+
+	public void setBookCover(BookCover bookCover) {
+		this.bookCover = bookCover;
+	}
 
 	public Long getBookId() {
 		return bookId;
