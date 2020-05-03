@@ -24,7 +24,7 @@ public class BookCover {
 	@Column(name = "cover_image", unique = true, nullable = false)
 	private String coverimage;
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id")
+	@JoinColumn(name = "book_id", unique = true,nullable = false)
 	private Book book;
 
 	public Book getBook() {
