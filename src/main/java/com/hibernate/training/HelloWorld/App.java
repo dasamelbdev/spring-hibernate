@@ -1,5 +1,7 @@
 package com.hibernate.training.HelloWorld;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,6 +10,8 @@ import com.hibernate.training.HelloWorld.model.Author;
 import com.hibernate.training.HelloWorld.model.AuthorProfile;
 import com.hibernate.training.HelloWorld.model.Book;
 import com.hibernate.training.HelloWorld.model.BookCover;
+import com.hibernate.training.HelloWorld.model.PrintingCompany;
+import com.hibernate.training.HelloWorld.model.PrintingCompanyBranch;
 import com.hibernate.training.HelloWorld.util.HibernateUtil;
 
 /**
@@ -72,7 +76,7 @@ public class App {
 		//one to one bidirectional association
 		
 		//getting book by book cover
-		
+		/*
 		Book book = new Book();
 		book.setBookName("book-3");
 		book.setISBN("666");
@@ -89,6 +93,60 @@ public class App {
 		//logger.info(" book covr id  :"+CRUDService.createBookCover(bookCover));
 		
 		logger.info("Book name =====>"+CRUDService.getBookByBookCover(4L).getBookName());		
+		
+	*/		
+		//Many to one uni directional mapping
+		//branch ---> company
+		
+		/*
+		PrintingCompany company_1 = new PrintingCompany();
+		company_1.setCompanyName("sarasavi");
+		
+		PrintingCompany company_2 = new PrintingCompany();
+		company_2.setCompanyName("gunasena");
+		
+		
+		PrintingCompanyBranch colombo_branch_company_1 = new PrintingCompanyBranch();
+		colombo_branch_company_1.setBranchName("colombo branch");
+		colombo_branch_company_1.setPrintingCompany(company_1);
+		
+		PrintingCompanyBranch kandy_branch_company_1 = new PrintingCompanyBranch();
+		kandy_branch_company_1.setBranchName("kandy branch");
+		kandy_branch_company_1.setPrintingCompany(company_1);
+		
+		
+		PrintingCompanyBranch colombo_branch_company_2 = new PrintingCompanyBranch();
+		colombo_branch_company_2.setBranchName("colombo");
+		colombo_branch_company_2.setPrintingCompany(company_2);
+		
+		
+		Session session = null;
+		Transaction transaction = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			session.save(colombo_branch_company_1);
+			session.save(kandy_branch_company_1);
+			session.save(colombo_branch_company_2);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			logger.error(e.getLocalizedMessage());
+
+		} finally {
+			session.close();
+		}
+
+
+		*/
+		
+		
+		
+		
+		
+		
 		HibernateUtil.shutdown();
 
 	}

@@ -14,60 +14,64 @@ import com.hibernate.training.HelloWorld.model.Author;
 import com.hibernate.training.HelloWorld.model.AuthorProfile;
 import com.hibernate.training.HelloWorld.model.Book;
 import com.hibernate.training.HelloWorld.model.BookCover;
+import com.hibernate.training.HelloWorld.model.PrintingCompany;
+import com.hibernate.training.HelloWorld.model.PrintingCompanyBranch;
 
 public class HibernateUtil {
-	
+
 	private static StandardServiceRegistry registry;
-	   private static SessionFactory sessionFactory;
+	private static SessionFactory sessionFactory;
 
-	   public static SessionFactory getSessionFactory() {
-	      if (sessionFactory == null) {
-	         try {
+	public static SessionFactory getSessionFactory() {
+		if (sessionFactory == null) {
+			try {
 
-	            // Create registry builder
-	            StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+				// Create registry builder
+				StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 
-	            // Hibernate settings equivalent to hibernate.cfg.xml's properties
-	            Map<String, String> settings = new HashMap<String, String>();
-	            settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
-	            settings.put(Environment.URL, "jdbc:mysql://localhost:3306/books-db");
-	            settings.put(Environment.USER, "root");
-	            settings.put(Environment.PASS, "root");
-	            settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-	            //settings.put(Environment.SHOW_SQL, "false");
-	            settings.put(Environment.HBM2DDL_AUTO, "update");
-	            
+				// Hibernate settings equivalent to hibernate.cfg.xml's properties
+				Map<String, String> settings = new HashMap<String, String>();
+				settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
+				settings.put(Environment.URL, "jdbc:mysql://localhost:3306/books-db");
+				settings.put(Environment.USER, "root");
+				settings.put(Environment.PASS, "root");
+				settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+				// settings.put(Environment.SHOW_SQL, "false");
+				settings.put(Environment.HBM2DDL_AUTO, "update");
 
-	            // Apply settings
-	            registryBuilder.applySettings(settings);
+				// Apply settings
+				registryBuilder.applySettings(settings);
 
-	            // Create registry
-	            registry = registryBuilder.build();
+				// Create registry
+				registry = registryBuilder.build();
 
-	            // Create MetadataSources
-	            MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(Book.class).
-	            		addAnnotatedClass(Author.class).addAnnotatedClass(AuthorProfile.class).addAnnotatedClass(BookCover.class);
+				// Create MetadataSources
+				MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(Book.class)
+						.addAnnotatedClass(Author.class).addAnnotatedClass(AuthorProfile.class)
+						.addAnnotatedClass(BookCover.class).addAnnotatedClass(PrintingCompany.class)
+						.addAnnotatedClass(PrintingCompanyBranch.class);
+				;
 
-	            // Create Metadata
-	            Metadata metadata = sources.getMetadataBuilder().build();
+				// Create Metadata
+				Metadata metadata = sources.getMetadataBuilder().build();
 
-	            // Create SessionFactory
-	            sessionFactory = metadata.getSessionFactoryBuilder().build();
+				// Create SessionFactory
+				sessionFactory = metadata.getSessionFactoryBuilder().build();
 
-	         } catch (Exception e) {
-	            e.printStackTrace();
-	            if (registry != null) {
-	               StandardServiceRegistryBuilder.destroy(registry);
-	            }
-	         }
-	      }
-	      return sessionFactory;
-	   }
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (registry != null) {
+					StandardServiceRegistryBuilder.destroy(registry);
+				}
+			}
+		}
+		return sessionFactory;
+	}
 
-	   public static void shutdown() {
-	      if (registry != null) {
-	         StandardServiceRegistryBuilder.destroy(registry);
-	      }
-	   }
+	public static void shutdown() {
+		if (registry != null) {
+			StandardServiceRegistryBuilder.destroy(registry);
+		}
+	}
 
 }
